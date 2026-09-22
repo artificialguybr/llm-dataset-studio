@@ -1,0 +1,95 @@
+
+/* ==========================================================================
+   Explorer / Records — text-first redesign (dense list, pills, inline expand)
+   ========================================================================== */
+.explorerbar { display: flex; gap: 8px; align-items: center; padding: 10px 0; flex-wrap: wrap; border-bottom: 1px solid var(--line, #2c3a50); }
+.explorerbar .spacer { flex: 1; }
+.explorer-q { flex: 1 1 260px; min-width: 200px; }
+.explorerbar input, .explorerbar select {
+  background: var(--canvas); color: var(--text); border: 1px solid var(--line, #2c3a50);
+  border-radius: 9px; padding: 9px 12px; font: inherit; font-size: 13px;
+}
+.explorerbar input:focus, .explorerbar select:focus { outline: 2px solid var(--acc); outline-offset: -1px; }
+
+.explorer-list { display: flex; flex-direction: column; gap: 6px; padding: 10px 0 24px; }
+
+.xl-row { border: 1px solid var(--line, #2c3a50); border-radius: 10px; background: var(--canvas); overflow: hidden; }
+.xl-row.open { border-color: var(--acc); }
+.xl-head {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px;
+  background: none; border: 0; color: var(--text); font: inherit; text-align: left; cursor: pointer;
+}
+.xl-head:hover { background: rgba(56, 189, 248, .06); }
+.xl-name { flex: 0 0 auto; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 650; font-size: 13.5px; }
+.xl-preview { flex: 1 1 auto; min-width: 120px; color: var(--text-3); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.xl-pills { display: flex; gap: 5px; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; }
+.xl-chev { color: var(--text-3); display: grid; place-items: center; transition: transform .15s ease; }
+.xl-row.open .xl-chev { transform: rotate(90deg); }
+
+.pill {
+  display: inline-block; border-radius: 999px; padding: 3px 9px; font-size: 11px;
+  font-weight: 700; letter-spacing: .02em; white-space: nowrap;
+  background: rgba(148, 163, 184, .14); color: var(--text-2, #cbd5e1); border: 1px solid transparent;
+}
+.pill.mono { font-family: ui-monospace, monospace; font-weight: 600; }
+.pill.warn { background: rgba(245, 158, 11, .16); color: var(--warn); }
+.pill.ok { background: rgba(16, 185, 129, .15); color: var(--ok); }
+.pill.bad { background: rgba(239, 68, 68, .16); color: var(--bad); }
+.pill.st-keep { background: rgba(16, 185, 129, .15); color: var(--ok); }
+.pill.st-review { background: rgba(245, 158, 11, .16); color: var(--warn); }
+.pill.st-quarantine { background: rgba(245, 158, 11, .1); color: var(--warn); border-color: rgba(245, 158, 11, .3); }
+.pill.st-reject { background: rgba(239, 68, 68, .16); color: var(--bad); }
+.pill.st-restore { background: rgba(56, 189, 248, .14); color: var(--acc); }
+.pill.st-approved { background: rgba(16, 185, 129, .15); color: var(--ok); }
+.pill.st-pending { background: rgba(148, 163, 184, .14); color: var(--text-2, #cbd5e1); }
+
+.xl-body { padding: 2px 16px 16px; border-top: 1px solid var(--line, #2c3a50); }
+.xl-text {
+  margin: 12px 0; padding: 14px; border-radius: 8px; background: rgba(15, 23, 42, .55);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; line-height: 1.6;
+  white-space: pre-wrap; overflow-wrap: anywhere; max-height: 420px; overflow: auto; color: var(--text);
+}
+.xl-kv { margin: 10px 0; }
+.xl-kv input, .xl-kv select {
+  background: var(--canvas); color: var(--text); border: 1px solid var(--line, #2c3a50);
+  border-radius: 6px; padding: 4px 8px; font-size: 12px; width: 100%;
+}
+.xl-issues { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin: 10px 0; }
+.xl-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.xl-actions .dk { flex: 1 1 120px; }
+
+/* records tabs */
+.record-tabs { display: flex; gap: 6px; }
+.record-tabs button {
+  display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line, #2c3a50);
+  background: transparent; color: var(--text-2, #cbd5e1); border-radius: 999px;
+  padding: 6px 14px; font: inherit; font-size: 13px; font-weight: 650; cursor: pointer;
+}
+.record-tabs button.active { background: rgba(56, 189, 248, .14); border-color: var(--acc); color: var(--acc); }
+.record-tabs button b { font-size: 11px; opacity: .8; }
+
+/* chat preview (conversas / SFT) */
+.chat { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.bubble { max-width: 78%; border-radius: 12px; padding: 9px 13px; font-size: 13px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bubble.left { align-self: flex-start; background: rgba(51, 65, 85, .8); border-bottom-left-radius: 4px; }
+.bubble.right { align-self: flex-end; background: rgba(56, 189, 248, .16); border-bottom-right-radius: 4px; }
+.bubble .bubble-role { display: block; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .65; margin-bottom: 3px; }
+.bubble p { margin: 0; }
+
+/* DPO side-by-side */
+.xl-prompt { font-size: 13px; margin: 12px 0; }
+.dpo-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+@media (max-width: 800px) { .dpo-compare { grid-template-columns: 1fr; } }
+.dpo-side { border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.dpo-side p { margin: 6px 0 0; }
+.dpo-side.chosen { background: rgba(16, 185, 129, .1); border: 1px solid rgba(16, 185, 129, .35); }
+.dpo-side.rejected { background: rgba(239, 68, 68, .08); border: 1px solid rgba(239, 68, 68, .3); }
+
+/* trace timeline */
+.trace-steps { list-style: none; margin: 12px 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.trace-steps li {
+  border-left: 3px solid var(--acc); padding: 8px 12px; background: rgba(51, 65, 85, .5);
+  border-radius: 0 8px 8px 0; font-size: 12.5px;
+}
+.trace-steps li b { display: inline-block; min-width: 90px; color: var(--acc); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.trace-steps li span { display: block; margin-top: 3px; color: var(--text-3); font-family: ui-monospace, monospace; overflow-wrap: anywhere; }

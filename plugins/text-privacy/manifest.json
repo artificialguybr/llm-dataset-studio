@@ -1,0 +1,10 @@
+{
+  "id": "text-privacy",
+  "name": "Text Privacy",
+  "version": "1.0.0",
+  "protocol": "ids-plugin.v1",
+  "capabilities": ["pii"],
+  "permissions": ["filesystem:input"],
+  "command": ["./run.py"],
+  "platforms": ["macos-arm64", "macos-x64", "linux-x64", "linux-arm64", "windows-x64"]
+}
